@@ -1,6 +1,8 @@
 package com.user.User.controller;
 
+import java.net.URI;
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,8 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.ResponseEntity;
 import com.user.User.model.User;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class UserController {
@@ -57,10 +60,16 @@ public class UserController {
 	}
 
 	@PostMapping("/Users")
-	public void addUser(@RequestBody User user) {
+	public ResponseEntity<Object> addUser(@RequestBody User user) {
 		// System.out.println(user);
 
 		ulist.add(user);
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest() // we are at /Users
+				.path("/{id}") // appending /id to give the complete path
+				.buildAndExpand(user.getId()).toUri();//appending /Users/id 
+
+		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping("/Users/{id}")
