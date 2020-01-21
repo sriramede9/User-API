@@ -21,7 +21,13 @@ import com.user.User.model.User;
 @RestController
 public class UserController {
 
-	private List<User> ulist = Arrays.asList(new User(1, "Sri", new Date()), new User(2, "Sri Ram", new Date()));
+	private static List<User> ulist = new ArrayList();
+
+	static {
+		ulist.add(new User(1, "Sri", new Date()));
+		ulist.add(new User(2, "Sri Ram", new Date()));
+		ulist.add(new User(3, "Sri Ram Ede", new Date()));
+	}
 
 	// inItBinder for date param
 
@@ -32,11 +38,6 @@ public class UserController {
 		binder.registerCustomEditor(Date.class, "dateOfBirth", new CustomDateEditor(dateFormatter, true));
 	}
 
-	@GetMapping("/hi")
-	public String test() {
-		return "YOLO!!";
-	}
-
 	@GetMapping("/Users")
 	public List getUser() {
 		return ulist;
@@ -45,32 +46,38 @@ public class UserController {
 	@GetMapping("/Users/{id}")
 	public User getUserbyId(@PathVariable("id") int id) {
 
-		// ulist.stream().filter()
+		for (User u : ulist) {
+			if (u.getId() == id) {
+				return u;
+			}
 
-		boolean anyMatch = ulist.stream().anyMatch(x -> (x.getId() == id));
+		}
 
-		if (anyMatch) {
-			return ulist.get(id);
-		} else
-			return null;
+		return null;
 	}
 
 	@PostMapping("/Users")
 	public void addUser(@RequestBody User user) {
 		// System.out.println(user);
 
+		ulist.add(user);
 	}
 
 	@DeleteMapping("/Users/{id}")
 	public User removeUser(@PathVariable int id) {
-		boolean anyMatch = ulist.stream().anyMatch(x -> x.getId() == id);
 
-		if (anyMatch) {
-			User u = ulist.get(id);
-			ulist.remove(u);
-			return u;
-		} else
-			return null;
+		User udel = null;
+
+		for (User u : ulist) {
+			if (u.getId() == id) {
+				udel = u;
+			}
+
+		}
+
+		ulist.remove(udel);
+
+		return udel;
 
 	}
 
