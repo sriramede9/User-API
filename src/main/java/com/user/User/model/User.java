@@ -1,9 +1,12 @@
 package com.user.User.model;
 
+import java.util.Date;
+
 public class User {
 
 	private int id;
 	private String name;
+	private Date dateOfBirth;
 
 	public User() {
 		super();
@@ -14,6 +17,13 @@ public class User {
 		super();
 		this.id = id;
 		this.name = name;
+	}
+
+	public User(int id, String name, Date date) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.dateOfBirth = date;
 	}
 
 	public int getId() {
@@ -32,9 +42,17 @@ public class User {
 		this.name = name;
 	}
 
+	public Date getDate() {
+		return dateOfBirth;
+	}
+
+	public void setDate(Date date) {
+		this.dateOfBirth = date;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + "]";
+		return "User [id=" + id + ", name=" + name + ", date=" + dateOfBirth + "]";
 	}
 
 }
