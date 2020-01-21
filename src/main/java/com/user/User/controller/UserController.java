@@ -55,11 +55,11 @@ public class UserController {
 		for (User u : ulist) {
 			if (u.getId() == id) {
 
-				return new ResponseEntity(u, HttpStatus.FOUND); //sending status code
+				return new ResponseEntity(u, HttpStatus.FOUND); // sending status code
 
 				// return u;
 			} else
-				throw new NosuchUserFoundException("id ->" + id); //throwing customized exception
+				throw new NosuchUserFoundException("id ->" + id); // throwing customized exception
 
 		}
 
@@ -89,6 +89,10 @@ public class UserController {
 				udel = u;
 			}
 
+		}
+
+		if (udel == null) {
+			throw new NosuchUserFoundException("id ->" + id);
 		}
 
 		ulist.remove(udel);
