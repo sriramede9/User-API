@@ -2,13 +2,15 @@ package com.user.User.controller;
 
 import java.net.URI;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
-import com.user.User.model.User;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.user.User.exception.NosuchUserFoundException;
+import com.user.User.model.User;
 
 @RestController
 public class UserController {
@@ -42,17 +45,21 @@ public class UserController {
 	}
 
 	@GetMapping("/Users")
-	public List getUser() {
+	public List<User> getUser() {
 		return ulist;
 	}
 
 	@GetMapping("/Users/{id}")
-	public User getUserbyId(@PathVariable("id") int id) {
+	public ResponseEntity<Object> getUserbyId(@PathVariable("id") int id) {
 
 		for (User u : ulist) {
 			if (u.getId() == id) {
-				return u;
-			}
+
+				return new ResponseEntity(u, HttpStatus.FOUND); //sending status code
+
+				// return u;
+			} else
+				throw new NosuchUserFoundException("id ->" + id); //throwing customized exception
 
 		}
 
@@ -60,14 +67,14 @@ public class UserController {
 	}
 
 	@PostMapping("/Users")
-	public ResponseEntity<Object> addUser(@RequestBody User user) {
+	public ResponseEntity<Object> addUser(@Valid @RequestBody User user) {
 		// System.out.println(user);
 
 		ulist.add(user);
 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest() // we are at /Users
 				.path("/{id}") // appending /id to give the complete path
-				.buildAndExpand(user.getId()).toUri();//appending /Users/id 
+				.buildAndExpand(user.getId()).toUri();// appending /Users/id
 
 		return ResponseEntity.created(uri).build();
 	}

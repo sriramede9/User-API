@@ -2,10 +2,21 @@ package com.user.User.model;
 
 import java.util.Date;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.apache.logging.log4j.message.Message;
+
 public class User {
 
 	private int id;
+	@Valid @NotBlank @Size(min = 3,message = "Name should not be less than 3 chars")
 	private String name;
+	@Past(message = "Date should not be  present day")
 	private Date dateOfBirth;
 
 	public User() {

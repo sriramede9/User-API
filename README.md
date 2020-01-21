@@ -8,7 +8,7 @@
 ### Important addings
 
 #### ServletUriComponentsBuilder,ResponseEntity
-
+#### ResponseEntityExceptionHandler @ControllerAdvice
 
 #### Libraries
 
