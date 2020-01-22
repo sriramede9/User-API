@@ -9,6 +9,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -23,6 +26,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.user.User.exception.NosuchUserFoundException;
 import com.user.User.model.User;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @RestController
 public class UserController {
@@ -44,20 +49,32 @@ public class UserController {
 		binder.registerCustomEditor(Date.class, "dateOfBirth", new CustomDateEditor(dateFormatter, true));
 	}
 
-	@GetMapping("/Users")
+	@GetMapping(path = "/Users", produces = { "application/json" })
 	public List<User> getUser() {
 		return ulist;
 	}
 
-	@GetMapping("/Users/{id}")
-	public ResponseEntity<Object> getUserbyId(@PathVariable("id") int id) {
+	@GetMapping(path = "/Users/{id}", produces = { "application/json" })
+	public Resource<User> getUserbyId(@PathVariable("id") int id) {
 
 		for (User u : ulist) {
 			if (u.getId() == id) {
 
-				return new ResponseEntity(u, HttpStatus.FOUND); // sending status code
+				// Hateoas
+				// send where end user can get all users data
 
-				// return u;
+				// 1) Resource class from Hateoas to stay with User object
+
+				Resource<User> resource = new Resource<>(u);
+
+				// use controller link builder to build the link
+
+				Link link = ControllerLinkBuilder.linkTo(methodOn(UserController.class).getUser()).withSelfRel();
+
+				resource.add(link.withRel("all-users"));
+
+				//return new ResponseEntity(u, HttpStatus.FOUND); // sending status code
+				return resource;
 			} else
 				throw new NosuchUserFoundException("id ->" + id); // throwing customized exception
 
@@ -66,7 +83,7 @@ public class UserController {
 		return null;
 	}
 
-	@PostMapping("/Users")
+	@PostMapping(path = "/Users", consumes = { "application/json" })
 	public ResponseEntity<Object> addUser(@Valid @RequestBody User user) {
 		// System.out.println(user);
 
@@ -79,7 +96,7 @@ public class UserController {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@DeleteMapping("/Users/{id}")
+	@DeleteMapping(path = "/Users/{id}", produces = "application/json")
 	public User removeUser(@PathVariable int id) {
 
 		User udel = null;
