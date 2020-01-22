@@ -49,12 +49,12 @@ public class UserController {
 		binder.registerCustomEditor(Date.class, "dateOfBirth", new CustomDateEditor(dateFormatter, true));
 	}
 
-	@GetMapping(path = "/Users", produces = { "application/json" })
+	@GetMapping(path = "/Users", produces = { "application/json" ,"application/xml"})
 	public List<User> getUser() {
 		return ulist;
 	}
 
-	@GetMapping(path = "/Users/{id}", produces = { "application/json" })
+	@GetMapping(path = "/Users/{id}", produces = { "application/json","application/xml" })
 	public Resource<User> getUserbyId(@PathVariable("id") int id) {
 
 		for (User u : ulist) {
@@ -83,7 +83,7 @@ public class UserController {
 		return null;
 	}
 
-	@PostMapping(path = "/Users", consumes = { "application/json" })
+	@PostMapping(path = "/Users", consumes = { "application/json","application/xml" })
 	public ResponseEntity<Object> addUser(@Valid @RequestBody User user) {
 		// System.out.println(user);
 
@@ -96,7 +96,7 @@ public class UserController {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@DeleteMapping(path = "/Users/{id}", produces = "application/json")
+	@DeleteMapping(path = "/Users/{id}", produces = {"application/json","application/xml"})
 	public User removeUser(@PathVariable int id) {
 
 		User udel = null;
