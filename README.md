@@ -10,6 +10,9 @@
 
 ### Jackson-data-format-xml for accepting JSON,XML using Accept header 
 
+### Added Swagger API, SwaggerUI,https://springfox.github.io/springfox/docs/current/
+
+
 ### Important addings
 
 #### ServletUriComponentsBuilder,ResponseEntity
@@ -22,6 +25,7 @@
 
 #### XML<=> JSON with maven dependence and request header with Accept=application/xml,application/json,@XMLRootElement
 
+#### @EnableSwagger2 ,Docket,
 
 #### Libraries
 
@@ -30,3 +34,4 @@
 * Devtools
 * HATEOAS
 * jackson-dataformat-xml
+* Swagger from Springfox
