@@ -12,13 +12,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.logging.log4j.message.Message;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
+
 @XmlRootElement
+@ApiModel( description = "User model obj details")							//swagger docmtn
 public class User {
 
 	private int id;
 	@Valid @NotBlank @Size(min = 3,message = "Name should not be less than 3 chars")
+	@ApiModelProperty(notes="Name should not be less than 3 chars")		//swagger docmtn
 	private String name;
 	@Past(message = "Date should not be  present day")
+	@ApiModelProperty(notes="Date should not be of present of future value") //swagger docmtn
 	private Date dateOfBirth;
 
 	public User() {

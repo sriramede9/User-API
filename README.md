@@ -25,7 +25,7 @@
 
 #### XML<=> JSON with maven dependence and request header with Accept=application/xml,application/json,@XMLRootElement
 
-#### @EnableSwagger2 ,Docket,
+#### @EnableSwagger2 ,Docket,@ApiModel,@ApiModelParam
 
 #### Libraries
 
