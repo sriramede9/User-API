@@ -35,3 +35,8 @@
 * HATEOAS
 * jackson-dataformat-xml
 * Swagger from Springfox
+
+
+## Images
+![](Images/Swagger-UI.PNG)
+![](Images/Swagger-UI-Controller-Get-All-Users.PNG)
