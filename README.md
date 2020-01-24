@@ -12,6 +12,8 @@
 
 ### Added Swagger API, SwaggerUI,https://springfox.github.io/springfox/docs/current/
 
+### Used ORM Tech to embedd with MySql Database
+
 
 ### Important addings
 
@@ -27,6 +29,8 @@
 
 #### @EnableSwagger2 ,Docket,@ApiModel,@ApiModelParam
 
+####  @Entity,@Id,@Generated
+
 #### Libraries
 
 * WEB
@@ -35,8 +39,10 @@
 * HATEOAS
 * jackson-dataformat-xml
 * Swagger from Springfox
-
+* Spring-boot-starter-data-jpa
+* mysql-connector-jpa
 
 ## Images
 ![](Images/Swagger-UI.PNG)
 ![](Images/Swagger-UI-Controller-Get-All-Users.PNG)
+![](Images/Mysql.PNG)
